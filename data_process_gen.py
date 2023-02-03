@@ -67,29 +67,29 @@ def mel_spectrogram(y, n_fft, num_mels, sampling_rate, hop_size, win_size, fmin,
     return spec
 
 
-# audioset_96_path = "/blob/v-yuancwang/speech/audioset/audioset_data"
-# as96_labels = os.listdir(audioset_96_path)
+audioset_96_path = "/blob/v-yuancwang/speech/audioset/audioset_data"
+as96_labels = os.listdir(audioset_96_path)
 
-# save_path = "/blob/v-yuancwang/audio_editing_data/audioset96"
+save_path = "/blob/v-yuancwang/audio_editing_data/audioset96"
 
-# for label in tqdm(as96_labels[:40]):
-#     file_dir = os.path.join(audioset_96_path, label) 
-#     for wav_file in tqdm(os.listdir(file_dir)[:]):
-#         wav, sr = librosa.load(os.path.join(file_dir, wav_file), sr=16000)
-#         if len(wav) < WAV_LENGTH:
-#             wav = np.pad(wav, (0, WAV_LENGTH - len(wav)), 'constant', constant_values=(0, 0))
-#         wav = wav[: WAV_LENGTH]
-#         x = torch.FloatTensor(wav)
-#         # print(len(x))
-#         x = mel_spectrogram(x.unsqueeze(0), n_fft=1024, num_mels=80, sampling_rate=16000,
-#                         hop_size=256, win_size=1024, fmin=0, fmax=8000)
-#         # print(x.shape)
-#         spec = x.cpu().numpy()[0]
-#         # print(spec.shape)
-#         wav = wav * MAX_WAV_VALUE
-#         wav = wav.astype('int16')
-#         write(os.path.join(save_path, "wav", wav_file), 16000, wav)
-#         np.save(os.path.join(save_path, "mel", wav_file.replace(".wav", ".npy")), spec)
+for label in tqdm(as96_labels[64:]):
+    file_dir = os.path.join(audioset_96_path, label) 
+    for wav_file in tqdm(os.listdir(file_dir)[:]):
+        wav, sr = librosa.load(os.path.join(file_dir, wav_file), sr=16000)
+        if len(wav) < WAV_LENGTH:
+            wav = np.pad(wav, (0, WAV_LENGTH - len(wav)), 'constant', constant_values=(0, 0))
+        wav = wav[: WAV_LENGTH]
+        x = torch.FloatTensor(wav)
+        # print(len(x))
+        x = mel_spectrogram(x.unsqueeze(0), n_fft=1024, num_mels=80, sampling_rate=16000,
+                        hop_size=256, win_size=1024, fmin=0, fmax=8000)
+        # print(x.shape)
+        spec = x.cpu().numpy()[0]
+        # print(spec.shape)
+        wav = wav * MAX_WAV_VALUE
+        wav = wav.astype('int16')
+        write(os.path.join(save_path, "wav", wav_file), 16000, wav)
+        np.save(os.path.join(save_path, "mel", wav_file.replace(".wav", ".npy")), spec)
 
 # dict = json.load(open("/home/v-yuancwang/AudioEditing/metadatas/audioset_ontology.json", "r"))
 # dict = {d['id']: d['name'] for d in dict}
