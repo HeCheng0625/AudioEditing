@@ -93,8 +93,8 @@ for label in tqdm(as96_labels[:]):
         # print(spec.shape)
         wav = wav * MAX_WAV_VALUE
         wav = wav.astype('int16')
-        write(os.path.join(save_path, "wav", wav_file), 16000, wav)
-        np.save(os.path.join(save_path, "mel", wav_file.replace(".wav", ".npy")), spec)
+        # write(os.path.join(save_path, "wav", wav_file), 16000, wav)
+        # np.save(os.path.join(save_path, "mel", wav_file.replace(".wav", ".npy")), spec)
 
 # dict = json.load(open("/home/v-yuancwang/AudioEditing/metadatas/audioset_ontology.json", "r"))
 # dict = {d['id']: d['name'] for d in dict}
