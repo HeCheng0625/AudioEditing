@@ -360,11 +360,15 @@ def main():
         subfolder="text_encoder",
         revision=args.revision,
     )
-    vae = AutoencoderKL.from_pretrained(
-        args.pretrained_model_name_or_path,
-        subfolder="vae",
-        revision=args.revision,
-    )   # finetune VAE
+    # vae = AutoencoderKL.from_pretrained(
+    #     args.pretrained_model_name_or_path,
+    #     subfolder="vae",
+    #     revision=args.revision,
+    # )
+    vae = AutoencoderKL.from_config(
+        "/home/v-yuancwang/AudioEditing/diffusion_configs",
+        subfolder="vae"
+    )
     unet = UNet2DConditionModel.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="unet",
@@ -404,19 +408,41 @@ def main():
     image_data = []
     text_data = []
 
-    with open(os.path.join(args.train_data_dir, "metadata.jsonl"), "r") as f:
+    # with open(os.path.join(args.train_data_dir, "metadata.jsonl"), "r") as f:
+    #     for line in f.readlines():
+    #         d = eval(line)
+    #         image_data.append(os.path.join(args.train_data_dir, d['file_name']))
+    #         text_data.append(d['text'])
+
+    audiocaps_data_path = "/blob/v-yuancwang/audio_editing_data/audiocaps/mel"
+    with open("/home/v-yuancwang/AudioEditing/metadatas/audiocaps_train_metadata.jsonl", "r") as f:
         for line in f.readlines():
             d = eval(line)
-            image_data.append(os.path.join(args.train_data_dir, d['file_name']))
-            text_data.append(d['text'])
+            image_data.append(os.path.join(audiocaps_data_path, d['file_name'].replace(".wav", ".npy")))
+    audioset_data_path = "/blob/v-yuancwang/audio_editing_data/audioset96/mel"
+    with open("/home/v-yuancwang/AudioEditing/metadatas/audioset96_file_label.txt", "r") as f:
+        for line in f.readlines():
+            wav_file = line.split("   ")[0].replace(".wav", ".npy")
+            image_data.append(os.path.join(audioset_data_path, wav_file))
+    fsd50k_data_path = "/blob/v-yuancwang/audio_editing_data/fsd50k/mel"
+    with open("/home/v-yuancwang/AudioEditing/metadatas/fsd50k_long.txt", "r") as f:
+        for line in f.readlines():
+            wav_file = line.split("   ")[0].replace(".wav", ".npy")
+            image_data.append(os.path.join(fsd50k_data_path, wav_file))
+    add_data_path = "/blob/v-yuancwang/audio_editing_data/add/mel"
+    with open("/home/v-yuancwang/AudioEditing/metadatas/audiocaps_add.txt", "r") as f:
+        for line in f.readlines():
+            wav_file = line.split("   ")[0].replace(".wav", ".npy")
+            image_data.append(os.path.join(add_data_path, wav_file))          
 
-    dataset = Dataset.from_dict({"image": image_data, "text": text_data})
+    # dataset = Dataset.from_dict({"image": image_data, "text": text_data})
+    dataset = Dataset.from_dict({"image": image_data})
 
     image_column, caption_column = "image", "text"
 
     def preprocess_train(examples):
         # images = [np.load(image) for image in examples[image_column]]
-        images = [(np.load(image) - 0.5)/0.5 for image in examples[image_column]]
+        images = [np.expand_dims(np.load(image), 0) for image in examples[image_column]]
         examples["pixel_values"] = [torch.Tensor(image) for image in images]
         # examples["input_ids"] = tokenize_captions(examples)
 
@@ -525,14 +551,18 @@ def main():
 
             with accelerator.accumulate(vae):
 
-                # Finetune VAE
-                target = batch["pixel_values"].float()
-                posterior = vae.module.encode(target).latent_dist
-                z = posterior.sample()
-                vae_output = vae.module.decode(z).sample
-                loss = F.mse_loss(vae_output.float(), target.float(), reduction="mean") + \
-                    1e-6 * torch.mean(posterior.kl())
+                # # Finetune VAE
+                # target = batch["pixel_values"].float()
+                # posterior = vae.module.encode(target).latent_dist
+                # z = posterior.sample()
+                # vae_output = vae.module.decode(z).sample
+                # loss = F.mse_loss(vae_output.float(), target.float(), reduction="mean") + \
+                #     1e-8 * torch.mean(posterior.kl())
 
+                # Finetune VAE
+                target = batch["pixel_values"].to(weight_dtype)
+                vae_output = vae(target).sample
+                loss = F.mse_loss(vae_output.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
                 avg_loss = accelerator.gather(loss.repeat(args.train_batch_size)).mean()
