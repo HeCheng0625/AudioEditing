@@ -551,18 +551,18 @@ def main():
 
             with accelerator.accumulate(vae):
 
-                # # Finetune VAE
-                # target = batch["pixel_values"].float()
-                # posterior = vae.module.encode(target).latent_dist
-                # z = posterior.sample()
-                # vae_output = vae.module.decode(z).sample
-                # loss = F.mse_loss(vae_output.float(), target.float(), reduction="mean") + \
-                #     1e-8 * torch.mean(posterior.kl())
-
                 # Finetune VAE
-                target = batch["pixel_values"].to(weight_dtype)
-                vae_output = vae(target, generator=None, sample_posterior=True).sample
-                loss = F.mse_loss(vae_output.float(), target.float(), reduction="mean")
+                target = batch["pixel_values"]
+                posterior = vae.module.encode(target).latent_dist
+                z = posterior.sample()
+                vae_output = vae.module.decode(z).sample
+                loss = 0.5 * F.mse_loss(vae_output.float(), target.float(), reduction="mean") + \
+                     + 0.5 * F.l1_loss(vae_output.float(), target.float(), reduction="mean") + 1e-6 * torch.mean(posterior.kl())
+
+                # # Finetune VAE
+                # target = batch["pixel_values"].to(weight_dtype)
+                # vae_output = vae(target, generator=None, sample_posterior=True).sample
+                # loss = F.mse_loss(vae_output.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
                 avg_loss = accelerator.gather(loss.repeat(args.train_batch_size)).mean()
