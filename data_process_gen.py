@@ -73,12 +73,13 @@ as96_labels = os.listdir(audioset_96_path)
 
 save_path = "/blob/v-yuancwang/audio_editing_data/audioset96"
 saved_mels = set(os.listdir(os.path.join(save_path, "wav")))
+saved_specs = set(os.listdir(os.path.join(save_path, "mel")))
 print("already saved:", len(saved_mels))
 
 for label in tqdm(as96_labels[:]):
     file_dir = os.path.join(audioset_96_path, label) 
     for wav_file in tqdm(os.listdir(file_dir)[:]):
-        if wav_file in saved_mels:
+        if wav_file in saved_mels and wav_file.replace(".wav", ".npy") in saved_specs:
             continue
         wav, sr = librosa.load(os.path.join(file_dir, wav_file), sr=16000)
         if len(wav) < WAV_LENGTH:

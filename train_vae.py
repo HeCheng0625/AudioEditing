@@ -561,7 +561,7 @@ def main():
 
                 # Finetune VAE
                 target = batch["pixel_values"].to(weight_dtype)
-                vae_output = vae(target).sample
+                vae_output = vae(target, generator=None, sample_posterior=True).sample
                 loss = F.mse_loss(vae_output.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
