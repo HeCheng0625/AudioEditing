@@ -1,0 +1,10 @@
+audiosetfsdescgen0.wav   73lWlIm6_cE.wav   3-208820-A-49.wav   Distortion   hand_saw   
+audiosetfsdescgen1.wav   tdMbNzHiqmQ.wav   322490.wav   Effects_unit   Boom   
+audiosetfsdescgen2.wav   2FxiGAo_tno.wav   98718.wav   Chirp,_tweet   Wood   
+audiosetfsdescgen3.wav   DNuH5JyeF28.wav   200108.wav   Rain_on_surface   Snare_drum   
+audiosetfsdescgen4.wav   6ASzN5HVZAA.wav   644.wav   Tender_music   Rattle_(instrument)   
+audiosetfsdescgen5.wav   BC2MDhJgL1A.wav   81754.wav   Jazz   Bass_drum   
+audiosetfsdescgen6.wav   6mLevhe6kjE.wav   237405.wav   Whimper_(dog)   Slam   
+audiosetfsdescgen7.wav   uVHwFl_fu-Y.wav   189539.wav   Clip-clop   Bird   
+audiosetfsdescgen8.wav   eK4JrLo_ckU.wav   2-196688-A-8.wav   Banjo   sheep   
+audiosetfsdescgen9.wav   2n_UBfYSwYA.wav   62226.wav   Radio   Laughter   
