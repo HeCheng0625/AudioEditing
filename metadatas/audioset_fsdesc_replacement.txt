@@ -1,0 +1,5 @@
+replacementgen0_0.wav   replacementgen0_1.wav   rooster   keyboard_typing   Spray
+replacementgen1_0.wav   replacementgen1_1.wav   Coin_(dropping)   Zipper_(clothing)   Heavy_engine_(low_frequency)
+replacementgen2_0.wav   replacementgen2_1.wav   Keyboard_(musical)   Chicken_and_rooster   Christian_music
+replacementgen3_0.wav   replacementgen3_1.wav   Fart   Livestock_and_farm_animals_and_working_animals   Bicycle
+replacementgen4_0.wav   replacementgen4_1.wav   airplane   Fire   Tender_music
