@@ -11,11 +11,7 @@ accelerate launch --mixed_precision="fp16" \
   --use_ema \
   --resolution=512 --center_crop --random_flip \
   --train_batch_size=4 \
-<<<<<<< HEAD
-  --gradient_accumulation_steps=2 \
-=======
   --gradient_accumulation_steps=1 \
->>>>>>> 3a3bede98f0a42c1d3cefd67f4336358039cd9c8
   --gradient_checkpointing \
   --max_train_steps=500000 \
   --checkpointing_steps=10000 \
@@ -23,3 +19,4 @@ accelerate launch --mixed_precision="fp16" \
   --max_grad_norm=1 \
   --lr_scheduler="constant" --lr_warmup_steps=0 \
   --output_dir="/blob/v-yuancwang/AudioEditing/Finetune_VAE_2"\
+  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditing/Finetune_VAE_2/checkpoint-10000"
