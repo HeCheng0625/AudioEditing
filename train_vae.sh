@@ -5,7 +5,7 @@ accelerate launch --mixed_precision="fp16" \
   --gpu_ids="all" \
   --num_machines=1 \
   --num_processes=8 \
-  train_vae.py \
+  train_vae_gan.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
   --train_data_dir=$TRAIN_DIR \
   --use_ema \
@@ -18,5 +18,4 @@ accelerate launch --mixed_precision="fp16" \
   --learning_rate=7.5e-5 \
   --max_grad_norm=1 \
   --lr_scheduler="constant" --lr_warmup_steps=0 \
-  --output_dir="/blob/v-yuancwang/AudioEditing/Finetune_VAE_2"\
-  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditing/Finetune_VAE_2/checkpoint-10000"
+  --output_dir="/blob/v-yuancwang/AudioEditing/VAE_GAN"\
