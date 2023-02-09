@@ -1,3 +1,7 @@
 MyPipeline
 hifigan_test
 hifigan_test_out
+inference_test_mel
+inference_test_picture
+inference_test_hifigan_res
+hifi-gan
