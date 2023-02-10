@@ -5,3 +5,5 @@ inference_test_mel
 inference_test_picture
 inference_test_hifigan_res
 hifi-gan
+hifigan_test_vae_gt
+hifigan_test_vae_gt_out
