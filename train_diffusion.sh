@@ -18,5 +18,4 @@ accelerate launch --mixed_precision="fp16" \
   --learning_rate=5e-5 \
   --max_grad_norm=1 \
   --lr_scheduler="constant" --lr_warmup_steps=0 \
-  --output_dir="/blob/v-yuancwang/AudioEditing/Diffusion"\
-  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditing/Diffusion/checkpoint-54000"
+  --output_dir="/blob/v-yuancwang/AudioEditing/Diffusion_2"\
