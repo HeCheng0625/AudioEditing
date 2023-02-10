@@ -580,7 +580,7 @@ def main():
                 vae_loss = 0.5 * F.mse_loss(vae_output.float(), target.float(), reduction="mean") + \
                     0.5 * F.l1_loss(vae_output.float(), target.float(), reduction="mean") + \
                     1e-6 * torch.mean(posterior.kl())
-                loss = vae_loss + 1 - 0.5 * (gan_loss_real(discriminator(target), target.device) + gan_loss_fake(discriminator(vae_output), vae_output.device))
+                loss = vae_loss - 0.1 * (gan_loss_real(discriminator(target), target.device) + gan_loss_fake(discriminator(vae_output), vae_output.device))
                 # # Finetune VAE
                 # target = batch["pixel_values"].to(weight_dtype)
                 # vae_output = vae(target, generator=None, sample_posterior=True).sample
@@ -642,7 +642,7 @@ def main():
                         )
                         pipeline.save_pretrained(os.path.join(args.output_dir, f"checkpoint-{global_step}"))
 
-            logs = {"step_vae_loss": vae_loss.detach().item(), "step_gan_loss": loss.detach().item()}
+            logs = {"vae_l": vae_loss.detach().item(), "gan_l": loss.detach().item()}
             progress_bar.set_postfix(**logs)
 
             if global_step >= args.max_train_steps:
