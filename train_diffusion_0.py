@@ -433,7 +433,11 @@ def main():
         captions = []
         for caption in examples[caption_column]:
             if isinstance(caption, str):
-                captions.append(caption)
+                p = np.random.choice([0, 1], p=[0.925, 0.0750])
+                if p==0:
+                    captions.append(caption)
+                else:
+                    captions.append("")
             elif isinstance(caption, (list, np.ndarray)):
                 # take a random caption if there are multiple
                 captions.append(random.choice(caption) if is_train else caption[0])
