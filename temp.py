@@ -3,8 +3,8 @@ import os
 with open("/home/v-yuancwang/AudioEditing/metadatas/audiocaps_train_metadata.jsonl", "r") as f:
     lines = f.readlines()
 lines = [eval(line) for line in lines]
-ac_path = "/blob/v-yuancwang/audio_editing_data/audiocaps"
-as_path = "/blob/v-yuancwang/audio_editing_data/audioset96"
+ac_path = "/blob/v-yuancwang/audio_editing_data/audiocaps/mel"
+as_path = "/blob/v-yuancwang/audio_editing_data/audioset96/mel"
 zero_path = "/blob/v-yuancwang/audio_editing_data/zeros.npy"
 with open("/home/v-yuancwang/AudioEditing/metadatas/audioset96_file_label.txt", "r") as f:
     as_lines = f.readlines()
