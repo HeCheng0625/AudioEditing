@@ -10,14 +10,14 @@ with open("/home/v-yuancwang/AudioEditing/metadatas/audioset96_file_label.txt", 
     as_lines = f.readlines()
 as_lines = [{"file_name": line.replace("\n", "").split("   ")[0], "text": line.replace("\n", "").split("   ")[1].replace("_", " ", 5)} for line in as_lines]
 np.random.shuffle(as_lines)
-print(as_lines[: 100])
+# print(as_lines[: 100])
 with open("/home/v-yuancwang/AudioEditing/metadata_infos/gen.txt", "w") as f:
     for line in lines:
         wav_name = line["file_name"].replace(".wav", ".npy")
         text = line["text"].replace("\n", "")
         text = np.random.choice(["generate: ", "Generate: ", "Generate:", "Generate: "]) + text
         f.write(zero_path + "   " + os.path.join(ac_path, wav_name) + "   " + text + "\n")
-    for line in as_lines[: 30000]:
+    for line in as_lines[: 50000]:
         wav_name = line["file_name"].replace(".wav", ".npy")
         text = line["text"].replace("\n", "")
         text = np.random.choice(["generate: ", "Generate: ", "Generate:", "Generate: "]) + text
