@@ -360,7 +360,7 @@ def main():
         subfolder="text_encoder"
     )
     vae = AutoencoderKL.from_pretrained(
-        "/blob/v-yuancwang/AudioEditing/VAE_GAN/checkpoint-40000",
+        "/blob/v-yuancwang/AudioEditingModel/VAE_GAN/checkpoint-40000",
         subfolder="vae"
     )
     unet = UNet2DConditionModel.from_pretrained(

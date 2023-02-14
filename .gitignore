@@ -9,3 +9,5 @@ hifi-gan
 hifigan_test_vae_gt
 hifigan_test_vae_gt_out
 figs
+test_generate
+test_generate_out
