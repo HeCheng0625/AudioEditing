@@ -360,7 +360,7 @@ def main():
         subfolder="text_encoder"
     )
     vae = AutoencoderKL.from_pretrained(
-        "/blob/v-yuancwang/AudioEditing/VAE_GAN/checkpoint-40000",
+        "/blob/v-yuancwang/AudioEditingModel/VAE_GAN/checkpoint-40000",
         subfolder="vae"
     )
     unet = UNet2DConditionModel.from_pretrained(
@@ -540,6 +540,7 @@ def main():
     logger.info(f"  Total train batch size (w. parallel, distributed & accumulation) = {total_batch_size}")
     logger.info(f"  Gradient Accumulation steps = {args.gradient_accumulation_steps}")
     logger.info(f"  Total optimization steps = {args.max_train_steps}")
+    logger.info(f"  Use EMA = {args.use_ema}")
     global_step = 0
     first_epoch = 0
 

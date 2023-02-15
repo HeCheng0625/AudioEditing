@@ -5,7 +5,7 @@ accelerate launch --mixed_precision="fp16" \
   --gpu_ids="all" \
   --num_machines=1 \
   --num_processes=8 \
-  train_diffusion.py \
+  train_diffusion_0.py \
   --pretrained_model_name_or_path=$MODEL_NAME \
   --train_data_dir=$TRAIN_DIR \
   --use_ema \
@@ -19,4 +19,4 @@ accelerate launch --mixed_precision="fp16" \
   --max_grad_norm=1 \
   --lr_scheduler="constant" --lr_warmup_steps=0 \
   --output_dir="/blob/v-yuancwang/AudioEditingModel/Diffusion_2"\
-  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditingModel/Diffusion_2/checkpoint-26000"
+  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditingModel/Diffusion_2/checkpoint-92000"
