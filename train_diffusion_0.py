@@ -541,6 +541,8 @@ def main():
     logger.info(f"  Gradient Accumulation steps = {args.gradient_accumulation_steps}")
     logger.info(f"  Total optimization steps = {args.max_train_steps}")
     logger.info(f"  Use EMA = {args.use_ema}")
+    logger.info(f"  Mixed precision = {args.mixed_precision}")
+    logger.info(f"  Weight dtype = {weight_dtype}")
     global_step = 0
     first_epoch = 0
 

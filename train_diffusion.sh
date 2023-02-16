@@ -1,7 +1,7 @@
 export MODEL_NAME="/home/v-yuancwang/AudioEditing/MyPipeline"
 export TRAIN_DIR=""
 
-accelerate launch --mixed_precision="fp16" \
+accelerate launch --mixed_precision="no" \
   --gpu_ids="all" \
   --num_machines=1 \
   --num_processes=8 \
@@ -19,4 +19,4 @@ accelerate launch --mixed_precision="fp16" \
   --max_grad_norm=1 \
   --lr_scheduler="constant" --lr_warmup_steps=0 \
   --output_dir="/blob/v-yuancwang/AudioEditingModel/Diffusion_2"\
-  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditingModel/Diffusion_2/checkpoint-92000"
+  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditingModel/Diffusion_2/checkpoint-96000"
