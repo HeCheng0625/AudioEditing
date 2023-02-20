@@ -1,0 +1,8 @@
+1. Inpainting
+2. Super-resoulution
+3. Add xxx in the background
+4. Add xxx in the middle
+5. Add xxx in the front
+6. Add xxx in the end
+7. Drop xxx (exist or not)
+8. Replacement
