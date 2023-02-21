@@ -19,3 +19,4 @@ accelerate launch --mixed_precision="no" \
   --max_grad_norm=1 \
   --lr_scheduler="constant" --lr_warmup_steps=0 \
   --output_dir="/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P"\
+  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P/checkpoint-200000"\
