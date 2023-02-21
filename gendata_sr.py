@@ -65,11 +65,9 @@ def mel_spectrogram(y, n_fft, num_mels, sampling_rate, hop_size, win_size, fmin,
 
     return spec
 
-# ac_wav_path = "/blob/v-yuancwang/audio_editing_data/audiocaps/wav"
-# save_path = "/blob/v-yuancwang/audio_editing_data/sr"
-# wav_files = os.listdir(ac_wav_path)
-ac_wav_path = "/blob/v-yuancwang/audio_editing_data/audiocaps/wav"
-as_wav_path = "/blob/v-yuancwang/audio_editing_data/audioset96/wav"
+
+ac_wav_path = "/blob/v-yuancwang/audio_editing_data/audiocaps_refine/wav"
+as_wav_path = "/blob/v-yuancwang/audio_editing_data/audioset96_refine/wav"
 save_path = "/blob/v-yuancwang/audio_editing_data/sr"
 ac_files = set(os.listdir(ac_wav_path))
 as_files = os.listdir(as_wav_path)
@@ -82,14 +80,14 @@ print(len(as_files))
 print(len(wav_files))
 wav_files = sorted(wav_files)
 
-# for file_name in tqdm(wav_files[:]):
-#     wav, sr = librosa.load(os.path.join(as_wav_path, file_name), sr=8000)
-#     wav = np.clip(wav, -1, 1)
-#     wav = wav * MAX_WAV_VALUE
-#     wav = wav.astype('int16')
-#     write(os.path.join(save_path, "wav", file_name), 8000, wav)
+for file_name in tqdm(wav_files[:]):
+    wav, sr = librosa.load(os.path.join(as_wav_path, file_name), sr=8000)
+    wav = np.clip(wav, -1, 1)
+    wav = wav * MAX_WAV_VALUE
+    wav = wav.astype('int16')
+    write(os.path.join(save_path, "wav", file_name), 8000, wav)
 
-for file_name in tqdm(wav_files[:80000]):
+for file_name in tqdm(wav_files[:]):
     wav, sr = librosa.load(os.path.join(save_path, "wav", file_name), sr=16000)
     x = torch.FloatTensor(wav)
     # print(len(x))
