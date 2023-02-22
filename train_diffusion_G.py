@@ -363,8 +363,8 @@ def main():
         "/blob/v-yuancwang/AudioEditingModel/VAE_GAN/checkpoint-40000",
         subfolder="vae"
     )
-    unet = UNet2DConditionModel.from_config(
-        "/blob/v-yuancwang/AudioEditingModel/MyPipeline",
+    unet = UNet2DConditionModel.from_pretrained(
+        args.pretrained_model_name_or_path,
         subfolder="unet"
     )
 
@@ -414,7 +414,7 @@ def main():
     tgt_data = []
     text_data = []
 
-    train_files = ["gen.txt"]
+    train_files = ["gen_refine.txt"]
     for file_name in train_files:
         with open(os.path.join("/home/v-yuancwang/AudioEditing/metadata_infos", file_name), "r") as f:
             for line in f.readlines():
