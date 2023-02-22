@@ -363,8 +363,8 @@ def main():
         "/blob/v-yuancwang/AudioEditingModel/VAE_GAN/checkpoint-40000",
         subfolder="vae"
     )
-    unet = UNet2DConditionModel.from_pretrained(
-        args.pretrained_model_name_or_path,
+    unet = UNet2DConditionModel.from_config(
+        "/blob/v-yuancwang/AudioEditingModel/MyPipeline",
         subfolder="unet"
     )
 
@@ -608,7 +608,7 @@ def main():
                     raise ValueError(f"Unknown prediction type {noise_scheduler.config.prediction_type}")
 
                 # Predict the noise residual and compute loss
-                model_pred = unet(torch.cat((noisy_latents, noisy_latents), dim=1), timesteps, encoder_hidden_states).sample
+                model_pred = unet(noisy_latents, timesteps, encoder_hidden_states).sample
                 loss = F.mse_loss(model_pred.float(), target.float(), reduction="mean")
 
                 # Gather the losses across all processes for logging (if we use distributed training).
