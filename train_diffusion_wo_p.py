@@ -414,7 +414,7 @@ def main():
     tgt_data = []
     text_data = []
 
-    train_files = ["inpainting.txt", "sr.txt", "add.txt", "drop.txt","replacement.txt"]
+    train_files = ["inpainting_refine.txt", "sr_refine.txt", "add_refine.txt", "drop_refine.txt", "replacement_refine.txt"]
     for file_name in train_files:
         with open(os.path.join("/home/v-yuancwang/AudioEditing/metadata_infos", file_name), "r") as f:
             for line in f.readlines():

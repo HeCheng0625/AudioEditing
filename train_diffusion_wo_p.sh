@@ -1,4 +1,4 @@
-export MODEL_NAME="/blob/v-yuancwang/AudioEditingModel/checkpoint-90000"
+export MODEL_NAME="/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P/checkpoint-10000"
 export TRAIN_DIR=""
 
 accelerate launch --mixed_precision="no" \
@@ -18,5 +18,4 @@ accelerate launch --mixed_precision="no" \
   --learning_rate=5e-5 \
   --max_grad_norm=1 \
   --lr_scheduler="constant" --lr_warmup_steps=0 \
-  --output_dir="/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P"\
-  --resume_from_checkpoint="/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P/checkpoint-200000"\
+  --output_dir="/blob/v-yuancwang/AudioEditingModel/Diffusion_SE"\
