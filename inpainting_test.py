@@ -42,7 +42,10 @@ print(test_set)
 for file_name in tqdm(test_set.keys()):
     texts = test_set[file_name]
     index = 0
+
     for text in texts:
+
+        text = "Super-resolution: " + text
         prompt = [text]
         text_input = tokenizer(prompt, max_length=tokenizer.model_max_length, truncation=True, padding="do_not_pad", return_tensors="pt")
         text_embeddings = text_encoder(text_input.input_ids.to(TORCH_DEVICE))[0]
@@ -53,6 +56,10 @@ for file_name in tqdm(test_set.keys()):
         uncond_embeddings = text_encoder(uncond_input.input_ids.to(TORCH_DEVICE))[0]
         text_embeddings = torch.cat([uncond_embeddings, text_embeddings])
 
+        mel_src = np.load(os.path.join("/blob/v-yuancwang/audio_editing_data/inpainting_test/mel", file_name+".npy"))
+        latents_src = torch.Tensor(np.array([[mel_src]])).to(TORCH_DEVICE)
+        latents_src = vae.encode(latents_src).latent_dist.sample()
+
         num_inference_steps = 100
         scheduler = PNDMScheduler.from_pretrained(model_path, subfolder="scheduler")
         scheduler.set_timesteps(num_inference_steps)
@@ -61,7 +68,7 @@ for file_name in tqdm(test_set.keys()):
         scheduler.set_timesteps(num_inference_steps)
 
         latents = torch.randn((1, 4, 10, 78)).to(TORCH_DEVICE)
-        # latents_src_input = torch.cat([latents_src] * 2)
+        latents_src_input = torch.cat([latents_src] * 2)
 
         for t in tqdm(scheduler.timesteps):
             # expand the latents if we are doing classifier-free guidance to avoid doing two forward passes.
@@ -71,9 +78,9 @@ for file_name in tqdm(test_set.keys()):
 
             # predict the noise residual
             with torch.no_grad():
-                # noise_pred = unet(torch.cat((latent_model_input, latents_src_input), dim=1), t, encoder_hidden_states=text_embeddings).sample
+                noise_pred = unet(torch.cat((latent_model_input, latents_src_input), dim=1), t, encoder_hidden_states=text_embeddings).sample
                 # noise_pred = unet(torch.cat((latent_model_input, latent_model_input), dim=1), t, encoder_hidden_states=text_embeddings).sample
-                noise_pred = unet(latent_model_input, t, encoder_hidden_states=text_embeddings).sample
+                # noise_pred = unet(latent_model_input, t, encoder_hidden_states=text_embeddings).sample
             
             # perform guidance
             noise_pred_uncond, noise_pred_text = noise_pred.chunk(2)
