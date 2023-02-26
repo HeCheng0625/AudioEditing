@@ -1,4 +1,4 @@
-export MODEL_NAME="/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P/checkpoint-2000"
+export MODEL_NAME="/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P/checkpoint-200000"
 export TRAIN_DIR=""
 
 accelerate launch --mixed_precision="no" \
