@@ -8,10 +8,10 @@ from tqdm import tqdm
 import soundfile as sf
 import torchaudio
 
-MODEL_PATH = ""
-CFG = 5.0
+MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_E_wo_P/checkpoint-200000"
+CFG = 4.0
 TORCH_DEVICE = "cuda:1"
-SAVE_MEL_PATH = ""
+SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/inpainting/200000/mel/mel"
 
 model_path = MODEL_PATH
 vae = AutoencoderKL.from_pretrained(model_path, subfolder="vae")
@@ -45,7 +45,7 @@ for file_name in tqdm(test_set.keys()):
 
     for text in texts:
 
-        text = "Super-resolution: " + text
+        text = "Inpainting: " + text
         prompt = [text]
         text_input = tokenizer(prompt, max_length=tokenizer.model_max_length, truncation=True, padding="do_not_pad", return_tensors="pt")
         text_embeddings = text_encoder(text_input.input_ids.to(TORCH_DEVICE))[0]
