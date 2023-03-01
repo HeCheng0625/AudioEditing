@@ -3,7 +3,7 @@ from tqdm import tqdm
 import numpy as np
 import shutil
 
-gen_path = "/blob/v-yuancwang/audio_editing_test/gen/240000/wav/wav"
+gen_path = "/blob/v-yuancwang/audio_editing_test/sr/200000/wav/wav"
 save_path = "/blob/v-yuancwang/audio_editing_test/random/wav"
 
 gen_wavs = os.listdir(gen_path)
