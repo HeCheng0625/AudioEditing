@@ -74,7 +74,7 @@ for file_name in tqdm(test_set.keys()):
     scheduler.set_timesteps(num_inference_steps)
     latents_src = torch.Tensor(np.array([[mel_src]])).to(TORCH_DEVICE)
     latents_src = vae.encode(latents_src).latent_dist.sample()
-    guidance_scale = 4.0
+    guidance_scale = CFG
     strength = 1.0
 
     noise = torch.randn_like(latents_src).to(TORCH_DEVICE)
