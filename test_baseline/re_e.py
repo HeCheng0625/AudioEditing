@@ -11,9 +11,10 @@ import torchaudio
 # MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SG/checkpoint-350000"
 MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SE/checkpoint-100000"
 CFG = 4.0
-TORCH_DEVICE = "cuda:4"
-# SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/baseline/add/0/mel"
-SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/drop/mel"
+TORCH_DEVICE = "cuda:3"
+# SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/baseline/replacement/0/mel"
+SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/replacement/mel"
+# STRENGTH = 0.5
 STRENGTH = 1.0
 
 model_path = MODEL_PATH
@@ -29,11 +30,11 @@ vae.requires_grad_(False)
 unet.requires_grad_(False)
 text_encoder.requires_grad_(False)
 
-with open("/home/v-yuancwang/AudioEditing/test_baseline/drop.txt", "r") as f:
+with open("/home/v-yuancwang/AudioEditing/test_baseline/replacement.txt", "r") as f:
     lines = f.readlines()
 
 for line in tqdm(lines[:]):
-    mel_tgt, mel_src, edit_text, gen_text = line.replace("\n", "").split("   ")
+    mel_src, mel_tgt, edit_text, gen_text = line.replace("\n", "").split("   ")
     file_name = mel_tgt.split("/")[-1].replace(".wav", "")
     mel_src = np.load(mel_src.replace(".wav", ".npy").replace("/wav/", "/mel/"))
     mel_tgt = np.load(mel_tgt.replace(".wav", ".npy").replace("/wav/", "/mel/"))

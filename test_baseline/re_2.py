@@ -8,13 +8,14 @@ from tqdm import tqdm
 import soundfile as sf
 import torchaudio
 
-# MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SG/checkpoint-350000"
-MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SE/checkpoint-100000"
+MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SG/checkpoint-350000"
+# MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SE/checkpoint-100000"
 CFG = 4.0
-TORCH_DEVICE = "cuda:4"
-# SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/baseline/add/0/mel"
-SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/drop/mel"
-STRENGTH = 1.0
+TORCH_DEVICE = "cuda:2"
+SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/baseline/replacement/2/mel"
+# SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/drop/mel"
+STRENGTH = 0.25
+# STRENGTH = 1.0
 
 model_path = MODEL_PATH
 vae = AutoencoderKL.from_pretrained(model_path, subfolder="vae")
@@ -29,17 +30,17 @@ vae.requires_grad_(False)
 unet.requires_grad_(False)
 text_encoder.requires_grad_(False)
 
-with open("/home/v-yuancwang/AudioEditing/test_baseline/drop.txt", "r") as f:
+with open("/home/v-yuancwang/AudioEditing/test_baseline/replacement.txt", "r") as f:
     lines = f.readlines()
 
 for line in tqdm(lines[:]):
-    mel_tgt, mel_src, edit_text, gen_text = line.replace("\n", "").split("   ")
+    mel_src, mel_tgt, edit_text, gen_text = line.replace("\n", "").split("   ")
     file_name = mel_tgt.split("/")[-1].replace(".wav", "")
     mel_src = np.load(mel_src.replace(".wav", ".npy").replace("/wav/", "/mel/"))
     mel_tgt = np.load(mel_tgt.replace(".wav", ".npy").replace("/wav/", "/mel/"))
-    # text = gen_text
+    text = gen_text
     ######
-    text = edit_text
+    # text = edit_text
     print(text)
     prompt = [text]
     text_input = tokenizer(prompt, max_length=tokenizer.model_max_length, truncation=True, padding="do_not_pad", return_tensors="pt")
@@ -64,10 +65,10 @@ for line in tqdm(lines[:]):
     init_timestep = min(int(num_inference_steps * strength), num_inference_steps)
     t_start = max(num_inference_steps - init_timestep, 0)
 
-    # latents = scheduler.add_noise(latents_src, noise, scheduler.timesteps[t_start: t_start+1])
+    latents = scheduler.add_noise(latents_src, noise, scheduler.timesteps[t_start: t_start+1])
     ######
-    latents = torch.randn((1, 4, 10, 78)).to(TORCH_DEVICE)
-    latents_src_input = torch.cat([latents_src] * 2)
+    # latents = torch.randn((1, 4, 10, 78)).to(TORCH_DEVICE)
+    # latents_src_input = torch.cat([latents_src] * 2)
 
 
     for t in tqdm(scheduler.timesteps[t_start:]):
@@ -80,8 +81,8 @@ for line in tqdm(lines[:]):
         # predict the noise residual
         with torch.no_grad():
             ######
-            noise_pred = unet(torch.cat((latent_model_input, latents_src_input), dim=1), t, encoder_hidden_states=text_embeddings).sample
-            # noise_pred = unet(latent_model_input, t, encoder_hidden_states=text_embeddings).sample
+            # noise_pred = unet(torch.cat((latent_model_input, latents_src_input), dim=1), t, encoder_hidden_states=text_embeddings).sample
+            noise_pred = unet(latent_model_input, t, encoder_hidden_states=text_embeddings).sample
                 
         # perform guidance
         noise_pred_uncond, noise_pred_text = noise_pred.chunk(2)
