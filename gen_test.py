@@ -9,9 +9,9 @@ import soundfile as sf
 import torchaudio
 
 MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SG/checkpoint-350000"
-CFG = 6.0
-TORCH_DEVICE = "cuda:7"
-SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/generate/350000/6.0/mel"
+CFG = 7.0
+TORCH_DEVICE = "cuda:5"
+SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/generate/350000/7.0/mel"
 
 model_path = MODEL_PATH
 vae = AutoencoderKL.from_pretrained(model_path, subfolder="vae")
