@@ -8,10 +8,10 @@ from tqdm import tqdm
 import soundfile as sf
 import torchaudio
 
-MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SE/checkpoint-72000"
-CFG = 6.0
-TORCH_DEVICE = "cuda:4"
-SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/sr/72000/6.0/mel"
+MODEL_PATH = "/blob/v-yuancwang/AudioEditingModel/Diffusion_SE/checkpoint-100000"
+CFG = 4.0
+TORCH_DEVICE = "cuda:6"
+SAVE_MEL_PATH = "/blob/v-yuancwang/audio_editing_test/sr/100000/4.0/mel"
 
 model_path = MODEL_PATH
 vae = AutoencoderKL.from_pretrained(model_path, subfolder="vae")
